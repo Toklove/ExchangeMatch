@@ -17,7 +17,7 @@ func ZapInterceptor() *zap.Logger {
 	return logger
 }
 
-// ZapInterceptor 返回zap.logger实例(把日志写到文件中)
+// ZapFileInterceptor 返回zap.logger实例(把日志写到文件中)
 func ZapFileInterceptor() *zap.Logger {
 	w := zapcore.AddSync(&lumberjack.Logger{
 		Filename:  "logs/info.log",

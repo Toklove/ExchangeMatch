@@ -5,13 +5,13 @@ import (
 	"github.com/go-redis/redis/v8"
 	"gome/utils"
 	"gopkg.in/yaml.v3"
-	"io/ioutil"
+	"os"
 )
 
 var Conf *utils.MeConfig
 
 func init() {
-	confFile, _ := ioutil.ReadFile("config.yaml")
+	confFile, _ := os.ReadFile("config.yaml")
 	err := yaml.Unmarshal(confFile, &Conf)
 	if err != nil {
 		fmt.Println(err)
