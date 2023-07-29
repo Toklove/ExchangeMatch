@@ -1,6 +1,7 @@
 package grpc
 
 import (
+	"fmt"
 	"gome/utils"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
@@ -10,7 +11,7 @@ import (
 
 var Conf *utils.MeConfig
 
-type gRPC struct {
+type GRPC struct {
 	Listener net.Listener
 	Protocol string
 	RPCurl   string
@@ -18,14 +19,17 @@ type gRPC struct {
 
 func init() {
 	confFile, _ := ioutil.ReadFile("config.yaml")
-	yaml.Unmarshal(confFile, &Conf)
+	err := yaml.Unmarshal(confFile, &Conf)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
-func NewRpcListener() *gRPC {
+func NewRpcListener() *GRPC {
 	host := Conf.GRPCConf.Host
 	port := Conf.GRPCConf.Port
 	RPCurl := host + ":" + port
-	gRPC := &gRPC{Protocol: "tcp", RPCurl: RPCurl}
+	gRPC := &GRPC{Protocol: "tcp", RPCurl: RPCurl}
 
 	var err error
 	gRPC.Listener, err = net.Listen(gRPC.Protocol, gRPC.RPCurl)

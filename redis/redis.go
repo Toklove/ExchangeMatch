@@ -1,6 +1,7 @@
 package redis
 
 import (
+	"fmt"
 	"github.com/go-redis/redis/v8"
 	"gome/utils"
 	"gopkg.in/yaml.v3"
@@ -11,7 +12,10 @@ var Conf *utils.MeConfig
 
 func init() {
 	confFile, _ := ioutil.ReadFile("config.yaml")
-	yaml.Unmarshal(confFile, &Conf)
+	err := yaml.Unmarshal(confFile, &Conf)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func NewRedisClient() *redis.Client {

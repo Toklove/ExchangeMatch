@@ -2,6 +2,7 @@ package engine
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type NodeLink struct {
@@ -25,14 +26,17 @@ func (nl *NodeLink) GetLinkNode(nodeName string) *OrderNode {
 	}
 
 	node := &OrderNode{}
-	json.Unmarshal([]byte(res.Val()), &node)
+	err := json.Unmarshal([]byte(res.Val()), &node)
+	if err != nil {
+		fmt.Println(err)
+	}
 	nl.Current = node // 获取某个节点时，把此节点设置为当前节点
 
 	return node
 }
 
-func (nl *NodeLink) SetFirstPointer(nodename string) {
-	cache.HSet(ctx, nl.Node.NodeLink, "f", nodename)
+func (nl *NodeLink) SetFirstPointer(nodeName string) {
+	cache.HSet(ctx, nl.Node.NodeLink, "f", nodeName)
 }
 
 func (nl *NodeLink) GetFirstNode() *OrderNode {
@@ -63,8 +67,8 @@ func (nl *NodeLink) SetLast() {
 	nl.SetLinkNode(nl.Node, nl.Node.NodeName)
 }
 
-func (nl *NodeLink) SetLastPointer(nodename string) {
-	cache.HSet(ctx, nl.Node.NodeLink, "l", nodename)
+func (nl *NodeLink) SetLastPointer(nodeName string) {
+	cache.HSet(ctx, nl.Node.NodeLink, "l", nodeName)
 }
 
 func (nl *NodeLink) GetLast() *OrderNode {

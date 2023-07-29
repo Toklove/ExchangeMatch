@@ -11,10 +11,10 @@ type Pool struct {
 	Node *OrderNode
 }
 
-// 获取深度列表.
+// GetDepth 获取深度列表.
 func (pl *Pool) GetDepth(ctx2 context.Context, request *api.DepthRequest) (*api.DepthResponse, error) {
 	order := api.OrderRequest{Uuid: "", Oid: "", Symbol: request.Symbol, Transaction: api.TransactionType(request.Transaction), Price: 0, Volume: 0}
-	node := NewOrderNode(order)
+	node := NewOrderNode(&order)
 	pool := Pool{Node: node}
 
 	total := pool.GetDepthTotal()
@@ -43,10 +43,10 @@ func (pl *Pool) GetDepth(ctx2 context.Context, request *api.DepthRequest) (*api.
 	}
 
 	response := &api.DepthResponse{
-		Code: 0,
+		Code:    0,
 		Message: "获取成功",
-		Total: total,
-		Data: data,
+		Total:   total,
+		Data:    data,
 	}
 
 	return response, nil
@@ -68,7 +68,7 @@ func (pl *Pool) DeletePrePool() {
 	}
 }
 
-//放入价格点对应的深度池
+// 放入价格点对应的深度池
 func (pl *Pool) SetDepthLink() bool {
 	link := &NodeLink{Node: pl.Node}
 	first := link.GetFirstNode()
@@ -86,7 +86,7 @@ func (pl *Pool) SetDepthLink() bool {
 	return true
 }
 
-//从价格点对应的深度链删除
+// 从价格点对应的深度链删除
 func (pl *Pool) DeleteDepthLink() bool {
 	link := &NodeLink{Node: pl.Node, Current: pl.Node}
 	current := link.GetCurrent()

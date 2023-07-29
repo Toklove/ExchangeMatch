@@ -10,7 +10,7 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name: "match",
+		Name:  "match",
 		Usage: "消费下单队列里的订单并撮合",
 		Action: func(c *cli.Context) error {
 			symbol := c.Args().Get(0)
